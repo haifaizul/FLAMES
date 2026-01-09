@@ -9,9 +9,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
-    <!-- AdSense Script -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1962231872605075"
-         crossorigin="anonymous"></script> 
 
     <style>
         :root {
@@ -189,15 +186,14 @@
         function getOrCreateSessionId() { 
              let sessionId = localStorage.getItem('flamesGameSessionId'); if (!sessionId) { sessionId = Date.now().toString(36) + Math.random().toString(36).substring(2); localStorage.setItem('flamesGameSessionId', sessionId); } return sessionId;
         }
-        
-        // UPDATED: Added 'score' parameter
+    
         async function submitToGoogleForm(name1, name2, flamesResult, score) { 
-            const FORM_RESPONSE_URL = "https://docs.google.com/forms/d/e/1FAIpQLSfNinA8kb1qmCWNJElFI-LPmehtul_RRK9kOUkAOHc03ZEFbA/formResponse";
-            const NAME1_ENTRY_ID = "entry.286197816"; 
-            const NAME2_ENTRY_ID = "entry.1787664536"; 
-            const RESULT_ENTRY_ID = "entry.1857416710"; 
-            const SESSION_ID_ENTRY_ID = "entry.308590061";
-            const SCORE_ENTRY_ID = "entry.1581888635"; // YOUR SCORE ENTRY ID
+            const FORM_RESPONSE_URL = "https://docs.google.com/forms/d/e/1FAIpQLSd1awi2hNBPfa0TVH6T5xTN5ZuTeZ8GZyG5XziCfp5NSVJH2A/formResponse";
+            const NAME1_ENTRY_ID = "entry.828677021"; 
+            const NAME2_ENTRY_ID = "entry.97782384"; 
+            const RESULT_ENTRY_ID = "entry.1437226366"; 
+            const SESSION_ID_ENTRY_ID = "entry.787204218";
+            const SCORE_ENTRY_ID = "entry.287145412";
 
             const sessionId = getOrCreateSessionId(); 
             const formData = new FormData();
@@ -205,7 +201,6 @@
             formData.append(NAME2_ENTRY_ID, name2); 
             formData.append(RESULT_ENTRY_ID, flamesResult); 
             formData.append(SESSION_ID_ENTRY_ID, sessionId);
-            // UPDATED: Append score if it's provided and the ID is set
             if (score !== undefined && SCORE_ENTRY_ID) { 
                 formData.append(SCORE_ENTRY_ID, score); 
             }
@@ -233,7 +228,6 @@
                 displayResult(flamesResult); 
                  if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = 'Find Your Spark ✨'; }
                 if (rawName1 && rawName2 && flamesResult.letter) {
-                    // UPDATED: Pass the score to the submission function
                     submitToGoogleForm(rawName1, rawName2, flamesResult.letter, flamesResult.score); 
                 }
             }, 750); 
@@ -251,7 +245,7 @@
         function showError(element, message) { element.textContent = message; element.style.display = 'block';}
         function hideError(element) { element.style.display = 'none'; }
 
-        // --- calculateFlames (No Changes Needed) ---
+        // --- calculateFlames ---
         function calculateFlames(name1, name2) { /* ... (existing scoring logic) ... */ 
             let cleanName1 = name1.toLowerCase().replace(/[^a-z]/g, ''); let cleanName2 = name2.toLowerCase().replace(/[^a-z]/g, '');
             const freq1 = {}; const freq2 = {};
@@ -272,7 +266,7 @@
             return { letter: finalLetter, score: connectionScore }; 
         }
 
-        // --- displayResult (No Changes Needed) ---
+        // --- displayResult ---
         function displayResult(resultData) { /* ... */ 
             const resultMeaning = flamesMeaning[resultData.letter]; currentShareData.title = resultMeaning ? resultMeaning.title : 'Unknown'; currentShareData.score = resultData.score;
             resultArea.classList.remove('result-F', 'result-L', 'result-A', 'result-M', 'result-E', 'result-S'); 
@@ -290,14 +284,14 @@
             resultArea.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }
 
-        // --- hideResult (No Changes Needed) ---
+        // --- hideResult ---
         function hideResult() { /* ... */ 
             resultArea.classList.remove('show'); if (scoreArea) { scoreArea.style.display = 'none'; } if (shareBtn) { shareBtn.style.display = 'none'; } 
             resultArea.classList.remove('result-F', 'result-L', 'result-A', 'result-M', 'result-E', 'result-S'); 
             setTimeout(() => { if (!resultArea.classList.contains('show')) {} }, 300);
         }
 
-        // --- Share Button Logic (No Changes Needed) ---
+        // --- Share Button Logic ---
         if(shareBtn) { /* ... */ 
             shareBtn.addEventListener('click', () => {
                 const siteUrl = window.location.href; const shareText = `Destiny hints at ${currentShareData.title} for ${currentShareData.name1} & ${currentShareData.name2}! 💖 Our Connection Score is ${currentShareData.score}%. ✨ See what FLAMES predicts for you: ${siteUrl}`;
@@ -309,3 +303,4 @@
     </script>
 </body>
 </html>
+
